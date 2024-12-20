@@ -35,7 +35,7 @@ python -m ipykernel install --user --name=ofm
 ```
 
 ## Description for folders and files
-`ofm_OT_likelihood.py`, serves as the key file. We also provide  `ofm_OT_likelihood_FFT.py`, which implements the GP prior using the FFT method.
+`ofm_OT_likelihood.py`, serves as the key file, see comments in the file for instructions
 
 `util` folder contains the GP prior implementation and other helper functions
 
