@@ -1,4 +1,4 @@
-# OFM
+# Stochastic Process Learning via Operator Flow Matching
 This repository contains the code for "Stochastic Process Learning via Operator Flow Matching".
 
 Our implementation heavily relies on [torchcfm](https://github.com/atong01/conditional-flow-matching) , [neuraloperator](https://github.com/neuraloperator/neuraloperator) packages and benefits from repositories [FFM](https://github.com/GavinKerrigan/functional_flow_matching) and [OpFlow](https://github.com/yzshi5/OpFlow). 
