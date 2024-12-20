@@ -17,7 +17,7 @@ Our implementation heavily relies on [torchcfm](https://github.com/atong01/condi
 Our implementation uses Anaconda and Jupyter Notebook. To set up the environment, unzip the folder and create a conda environment:
 
 
-`cd OFM_code`
+`cd SPL_OFM`
 
 `conda env create -f environment.yml`
 
