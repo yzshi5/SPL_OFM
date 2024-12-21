@@ -14,16 +14,23 @@ Our implementation heavily relies on [torchcfm](https://github.com/atong01/condi
 
 
 ## Environment
-Our implementation uses Anaconda and Jupyter Notebook. To set up the environment, unzip the folder and create a conda environment:
+Our implementation uses Anaconda and Jupyter Notebook. To set up the environment, create a conda environment:
+
+```
+# clone project
+git clone https://github.com/yzshi5/SPL_OFM.git
+cd SPL_OFM
+
+# create conda environment
+conda env create -f environment.yml
+
+# Activate the `ofm` environment
+conda activate ofm
+```
 
 
-`cd SPL_OFM`
 
-`conda env create -f environment.yml`
 
-Activate the `ofm` environment
-
-`conda activate ofm`
 
 Install the `ipykernel` to run the code in a jupyter notebook
 ```
