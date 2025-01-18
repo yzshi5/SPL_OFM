@@ -46,7 +46,7 @@ python -m ipykernel install --user --name=ofm
 
 `util` folder contains the GP prior implementation and other helper functions
 
-`model` folder includes FNO implementation, we also provide FNO with differential kernel (https://arxiv.org/abs/2402.16845)
+`model` folder includes FNO implementation, we also provide FNO with differential kernel 
 
 `prior_learning` folder contains all prior learning tasks
 
