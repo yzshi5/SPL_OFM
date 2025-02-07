@@ -53,3 +53,13 @@ python -m ipykernel install --user --name=ofm
 `regression` folder contains all regression tasks
 
 `sampling_FSGLD` folder contains the code for SGLD sampling
+
+# Reference
+```
+@article{shi2025stochastic,
+  title={Stochastic Process Learning via Operator Flow Matching},
+  author={Shi, Yaozhong and Ross, Zachary E and Asimaki, Domniki and Azizzadenesheli, Kamyar},
+  journal={arXiv preprint arXiv:2501.04126},
+  year={2025}
+}
+```
