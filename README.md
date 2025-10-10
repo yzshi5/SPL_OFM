@@ -4,12 +4,15 @@ This repository contains the code for "Stochastic Process Learning via Operator 
 Our implementation relies on [torchcfm](https://github.com/atong01/conditional-flow-matching) , [neuraloperator](https://github.com/neuraloperator/neuraloperator) packages and benefits from repositories [FFM](https://github.com/GavinKerrigan/functional_flow_matching) and [OpFlow](https://github.com/yzshi5/OpFlow). 
 
 ## Example of applying OFM for Gaussian Process (GP) and non-GP data regression
+'two-phase strategy'
+<img width="940" height="318" alt="Screenshot 2025-10-10 at 4 42 26 PM" src="https://github.com/user-attachments/assets/8ef24137-c105-441c-9737-58666453c517" />
 
 `GP data example`
-![image](https://github.com/user-attachments/assets/27430fc2-38ff-4557-91b3-3477e069e785)
+<img width="1023" height="197" alt="Screenshot 2025-10-10 at 4 48 26 PM" src="https://github.com/user-attachments/assets/07b556db-f8f4-4556-bbf7-fef6adf129bc" />
 
 `non-GP black hole example`
-![image](https://github.com/user-attachments/assets/88d26ba7-b4bf-4db9-bb2f-63de3617f55b)
+
+<img width="885" height="349" alt="Screenshot 2025-10-10 at 4 46 31 PM" src="https://github.com/user-attachments/assets/e8b382f7-0493-4edc-afec-e8d724163b4e" />
 
 
 
