@@ -1,4 +1,4 @@
-# Stochastic Process Learning via Operator Flow Matching (NeurIPS 2025 Spotlight top 3.5%)
+# Stochastic Process Learning via Operator Flow Matching (NeurIPS 2025 Spotlight, top 3.5%)
 
 ### [OFM Paper](https://arxiv.org/abs/2501.04126)
 by Yaozhong Shi, Zachary E. Ross, Domniki Asimaki, Kamyar Azizzadenesheli
