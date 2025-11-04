@@ -1,7 +1,8 @@
-# Stochastic Process Learning via Operator Flow Matching (NeurIPS 2025 Spotlight)
-This repository contains the code for "Stochastic Process Learning via Operator Flow Matching" (NeurIPS 2025 Spotlight, top 3.5%). [https://arxiv.org/abs/2501.04126](https://arxiv.org/abs/2501.04126)
+# Stochastic Process Learning via Operator Flow Matching (NeurIPS 2025 Spotlight top 3.5%)
 
-Our implementation relies on [torchcfm](https://github.com/atong01/conditional-flow-matching) , [neuraloperator](https://github.com/neuraloperator/neuraloperator) packages and benefits from repositories [FFM](https://github.com/GavinKerrigan/functional_flow_matching) and [OpFlow](https://github.com/yzshi5/OpFlow). 
+### [OFM Paper](https://arxiv.org/abs/2501.04126)
+by Yaozhong Shi, Zachary E. Ross, Domniki Asimaki, Kamyar Azizzadenesheli
+
 
 ## Example of applying OFM for Gaussian Process (GP) and non-GP data regression
 'two-phase strategy'
