@@ -1,7 +1,9 @@
 import torch
 from sklearn.gaussian_process.kernels import Matern
-from util.util import make_grid
+from ofm_utils.util import make_grid
 import numpy as np
+
+## Load the model 
 
 def matern_kernel_cov(grids, length_scale, nu):
     """
@@ -9,6 +11,28 @@ def matern_kernel_cov(grids, length_scale, nu):
     """
     kernel = 1.0 * Matern(length_scale=length_scale, length_scale_bounds="fixed", nu=nu)
     return kernel(grids)
+
+
+def _build_mvn_from_cov(base_mu, base_cov, device, max_tries=3):
+    """
+    Build a stable MultivariateNormal by validating Cholesky and
+    increasing diagonal jitter when needed.
+    """
+    base_mu = base_mu.to(device=device, dtype=torch.float32)
+    cov = base_cov.to(device=device, dtype=torch.float64)
+    eye = torch.eye(cov.shape[0], device=device, dtype=torch.float64)
+
+    jitter = 0.0
+    for _ in range(max_tries):
+        chol, info = torch.linalg.cholesky_ex(cov + jitter * eye)
+        if torch.all(info == 0):
+            chol = torch.tril(chol).to(torch.float32)
+            return torch.distributions.MultivariateNormal(base_mu, scale_tril=chol)
+        jitter = 1e-6 if jitter == 0.0 else jitter * 10.0
+
+    raise RuntimeError(
+        "Failed to build a valid GP covariance Cholesky factor after jitter escalation."
+    )
 
 
 class true_GPPrior(torch.distributions.distribution.Distribution):
@@ -23,7 +47,6 @@ class true_GPPrior(torch.distributions.distribution.Distribution):
         """
         assert var == 1, 'variance is not 1' 
         
-        jitter = 1e-6
         ## kernel shape: [N, N], mean shape :[N]
         # dims should be 1D [n_x] or 2D [n_x, n_x]
         n_points = np.prod(dims)
@@ -35,15 +58,14 @@ class true_GPPrior(torch.distributions.distribution.Distribution):
         self.dims = dims
         
         base_mu = torch.zeros(n_points).float()
-        #add jitter 
-        base_cov = torch.tensor(matern_ker).float() + jitter * torch.eye(matern_ker.shape[0])
+        # add a small base jitter; helper can increase if needed
+        base_cov = torch.tensor(matern_ker).float() + 1e-6 * torch.eye(matern_ker.shape[0])
         base_cov = base_cov.to(torch.float64) #can help improve numerical stability
-        #add jitter 
-        
+        # be careful of numerical instability when calculating on GPU
         try:
-            self.base_dist = torch.distributions.MultivariateNormal(base_mu.to(device), scale_tril=torch.linalg.cholesky_ex(base_cov.to(device))[0].to(torch.float32)) 
-        except:
-            self.base_dist = torch.distributions.MultivariateNormal(base_mu.to(device), scale_tril=torch.linalg.cholesky_ex(base_cov)[0].to(torch.float32).to(device)) #be careful of the numerical instability when calculating on GPU
+            self.base_dist = _build_mvn_from_cov(base_mu, base_cov, device)
+        except RuntimeError:
+            self.base_dist = _build_mvn_from_cov(base_mu, base_cov, "cpu")
             
         self.device = device
 
@@ -58,19 +80,18 @@ class true_GPPrior(torch.distributions.distribution.Distribution):
 
         returns: a gpytorch distribution corresponding to a Gaussian at x
         """
-        jitter = 1e-6        
         n_points = np.prod(dims)
         grids = make_grid(dims)
         matern_ker = matern_kernel_cov(grids, self.lengthscale, self.nu)
         
         base_mu = torch.zeros(n_points).float()
-        base_cov = torch.tensor(matern_ker).float() + jitter * torch.eye(matern_ker.shape[0])
+        base_cov = torch.tensor(matern_ker).float() + 1e-6 * torch.eye(matern_ker.shape[0])
         base_cov = base_cov.to(torch.float64)        
 
         try:
-            base_dist = torch.distributions.MultivariateNormal(base_mu.to(device), scale_tril=torch.linalg.cholesky_ex(base_cov.to(device))[0].to(torch.float32))       
-        except:
-            base_dist = torch.distributions.MultivariateNormal(base_mu.to(self.device), scale_tril=torch.linalg.cholesky_ex(base_cov)[0].to(torch.float32).to(self.device))  
+            base_dist = _build_mvn_from_cov(base_mu, base_cov, self.device)
+        except RuntimeError:
+            base_dist = _build_mvn_from_cov(base_mu, base_cov, "cpu")
             
         return base_dist
     
